@@ -1,7 +1,11 @@
-const { DataTypes } = require('sequelize');
+// User.js
+
+const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/database');
 
-const User = sequelize.define('User', {
+class User extends Model {}
+
+User.init({
   id: {
     type: DataTypes.BIGINT,
     primaryKey: true,
@@ -21,16 +25,18 @@ const User = sequelize.define('User', {
     allowNull: false,
   },
   createdAt: {
-    type: DataTypes.DATE, // Sesuaikan dengan tipe data yang digunakan di database Anda
+    type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: DataTypes.NOW,
   },
   updatedAt: {
-    type: DataTypes.DATE, // Sesuaikan dengan tipe data yang digunakan di database Anda
+    type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: DataTypes.NOW,
   },
+}, {
+  sequelize,
+  modelName: 'User',
 });
-
 
 module.exports = User;

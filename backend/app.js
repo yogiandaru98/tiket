@@ -3,6 +3,7 @@ const express = require('express');
 const UserModel = require('./models/User');
 const sequelize = require('./config/database');
 const userRoutes = require('./routes/userRoutes');
+const searchResults = require('./routes/searchResults');
 const cors = require('cors');
 const session = require('express-session');
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));;
 app.use(express.static(path.join(__dirname, '../public')));
 app.use('/users', userRoutes);
+app.use('/search', searchResults);
 
 
 app.get('/', (req, res) => {
