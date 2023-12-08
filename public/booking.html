@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>BayPlane | Penyedia Tiket terlucu</title>
+    <title>Travelisip</title>
     <link rel="icon" href="../image/bayplane.png" />
     <link rel="stylesheet" href="../css/materialize.min.css" />
     <link rel="stylesheet" href="../css/ionicons.min.css" />
@@ -92,7 +92,7 @@
             <h3>Customer</h3>
             <form method="post" action="/users/pesan">
               <div class="input-field">
-                <input type="text" name="kode_kursi"  value="21" />
+                <input type="number" name="kode_kursi" required/>
                 <label for="phone" required class="active">Kode Kursi</label>
               </div>
               <input type="hidden" id="PaketId" name="PaketId" value="">
@@ -133,7 +133,7 @@
         </div>
       </div>
       <div class="footer-copyright">
-        <div class="container">© 2023 Travelisip</div>
+        <div class="container">© 2023 Grub 3 Jakarta</div>
       </div>
     </footer>
 

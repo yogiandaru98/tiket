@@ -306,11 +306,11 @@ router.post("/pesan", async (req, res) => {
     return res.redirect("/users/signin");
   }
   try {
-    const { tanggal_berangkat, kode_kursi, PaketId } = req.body;
+    const { kode_kursi, PaketId } = req.body;
     const kode_booking = generateRandomCode();
     const tanggal_booking = Date.now();
 
-    if (!tanggal_berangkat || !kode_kursi || !PaketId) {
+    if ( !kode_kursi || !PaketId) {
       return res.status(400).send("Please provide a valid search value");
     }
 
@@ -318,7 +318,6 @@ router.post("/pesan", async (req, res) => {
     // Pastikan untuk memformat hasil pencarian ke dalam bentuk JSON
     const tiket = await Tiket.create({
       kode_booking,
-      tanggal_berangkat,
       kode_kursi,
       PaketId,
       UserId: req.session.user.id,
@@ -363,6 +362,21 @@ router.get("/keranjang", (req, res) => {
     res.sendFile(keranjang);
   }
 });
+
+router.get("/paketAll", async (req, res) => {
+  if (!req.session || !req.session.user) {
+    return res.redirect("/users/signin");
+  } else {
+    try {
+      const paketData = await Paket.findAll();
+      res.json(paketData);
+    } catch (error) {
+      console.error("Error:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+}
+);
 
 
 module.exports = router;

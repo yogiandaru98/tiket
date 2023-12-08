@@ -131,7 +131,7 @@
         </div>
       </div>
       <div class="footer-copyright">
-        <div class="container">© 2023 Travelisip</div>
+        <div class="container">© 2023 Grub 3 Jakarta</div>
       </div>
     </footer>
 
@@ -148,8 +148,8 @@
           const tanggal_booking = tiket.tanggal_booking
             ? new Date(tiket.tanggal_booking).toISOString().split("T")[0]
             : "";
-          const tanggal_berangkat = tiket.tanggal_berangkat
-            ? new Date(tiket.tanggal_berangkat).toISOString().split("T")[0]
+          const tanggal_berangkat = tiket.Paket.tanggal_berangkat
+            ? new Date(tiket.Paket.tanggal_berangkat).toISOString().split("T")[0]
             : "";
           const harga = tiket.Paket.harga
             ? tiket.Paket.harga.toLocaleString("id-ID", {

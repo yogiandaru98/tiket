@@ -21,10 +21,10 @@
               <i class="ion-android-people"><i class="ion-chevron-down"></i></i>
             </a>
             <ul id="dropdown1" class="dropdown-content" style="width: 100px">
-                <li>
-                    <a href="dashboard"><i class="ion-home"></i>dashboard</a>
-                  </li>
-                <li>
+              <li>
+                <a href="dashboard"><i class="ion-home"></i>dashboard</a>
+              </li>
+              <li>
                 <a href="keranjang"
                   ><i class="ion-ios-cart" aria-hidden="true"></i> Keranjang</a
                 >
@@ -107,15 +107,28 @@
             <center>
               <h1>Cari Tiket</h1>
             </center>
-            
             <form id="searchForm">
               <label for="tujuan">Cari Tujuan</label>
-              <input type="text" id="tujuan" name="tujuan" required>
-              <button type="submit" class="btn waves-effect blue"><i class="ion-search"></i> Cari</button>
+              <input type="text" id="tujuan" name="tujuan" />
+              <button type="submit" class="btn waves-effect blue">
+                <i class="ion-search"></i> Cari
+              </button>
             </form>
+            <table id="searchResultsTable">
+              <thead>
+                <tr>
+                  <td>Tanggal Berangkat</td>
+                  <td>Dari</td>
+                  <td>Tujuan Ke</td>
+                  <td>Harga Tiket</td>
+                  <td>Type</td>
+                  <td>Pesan</td>
+                </tr>
+              </thead>
+              <tbody id="searchResults"></tbody>
+            </table>
           </div>
         </div>
-        
       </div>
     </div>
     <footer class="page-footer" style="background-color: #0f0f0f">
@@ -150,30 +163,75 @@
         <div class="container">© 2023 Travelisip</div>
       </div>
     </footer>
-    <script>
-       document.addEventListener("DOMContentLoaded", async () => {
-      try {
-           const response = await fetch("/users/selfUser");
-           if (response.ok) {
-               const data = await response.json();
-               document.getElementById("fullname").textContent = data.fullname;
-           } else {
-               console.log(response);
-           }
-       } catch (error) {
-           console.log(error);
-       }
-       });
-    </script>
-    <script>
-      const searchForm = document.getElementById('searchForm');
-      searchForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const tujuan = document.getElementById('tujuan').value;
-        window.location.href = `/users/cari?tujuan=${tujuan}`;
-      });
-    </script>
 
     <div class="hiddendiv common"></div>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const response = await fetch("/users/selfUser");
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById("fullname").textContent = data.fullname;
+        } else {
+          console.log(response);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  </script>
+  <script>
+    const searchForm = document.getElementById("searchForm");
+    searchForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const tujuan = document.getElementById("tujuan").value;
+      if (tujuan === "") {
+        tujuan = "all";
+      }
+      window.location.href = `/users/cari?tujuan=${tujuan}`;
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const response = await fetch("/users/paketAll");
+        if (response.ok) {
+          const data = await response.json();
+          const searchResults = document.getElementById("searchResults");
+          data.forEach((item) => {
+            const tanggal_berangkat = new Date(item.tanggal_berangkat).toISOString().split('T')[0];
+            const tr = document.createElement("tr");
+            const td1 = document.createElement("td");
+            td1.textContent = tanggal_berangkat;
+            const td2 = document.createElement("td");
+            td2.textContent = item.awalan;
+            const td3 = document.createElement("td");
+            td3.textContent = item.tujuan;
+            const td4 = document.createElement("td");
+            td4.textContent = item.harga;
+            const td5 = document.createElement("td");
+            td5.textContent = item.type;
+            const td6 = document.createElement("td");
+            const a = document.createElement("a");
+            a.href = `/users/pesan?id=${item.id}`;
+            a.textContent = "Pesan";
+            a.className = "btn waves-effect";
+            td6.appendChild(a);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tr.appendChild(td5);
+            tr.appendChild(td6);
+            searchResults.appendChild(tr);
+          });
+        } else {
+          console.log(response);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  </script>
 </html>

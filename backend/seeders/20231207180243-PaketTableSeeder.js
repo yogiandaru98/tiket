@@ -6,7 +6,7 @@ const { faker } = require('@faker-js/faker');
 module.exports = {
   async up(queryInterface, Sequelize) {
     const paketData = [];
-    const numPakets = 10; // Change the number of pakets as needed
+    const numPakets = 15; // Change the number of pakets as needed
 
     for (let i = 0; i < numPakets; i++) {
       const paket = {
